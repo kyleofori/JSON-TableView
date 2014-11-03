@@ -4,5 +4,8 @@
     <string name="app_name">JSON-TableView</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="pref_temp_label">Temperature</string>
+    <string name="imperial">Imperial</string>
+    <string name="metric">Metric</string>
 
 </resources>
