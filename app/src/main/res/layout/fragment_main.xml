@@ -1,4 +1,5 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,9 +9,47 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity$PlaceholderFragment">
 
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
-</RelativeLayout>
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/yesterday"
+                android:text="@string/yesterday"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center">
+                </TextView>
+
+            <TextView
+                android:id="@+id/today"
+                android:text="@string/today"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center">
+            </TextView>
+
+            <TextView
+                android:id="@+id/tomorrow"
+                android:text="@string/tomorrow"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center">
+            </TextView>
+
+        </TableRow>
+
+        <TableRow>
+
+        </TableRow>
+
+        <TableRow>
+
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>

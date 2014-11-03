@@ -7,14 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.detroitlabs.kyleofori.json_tableview.R;
+import com.detroitlabs.kyleofori.json_tableview.asynctasks.FetchWeatherTask;
 
 /**
  * Created by kyleofori on 11/3/14.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements FetchWeatherTask.WeatherFetchedListener {
+
+    @Override
+    public void weatherReceived(String[] weatherData) {
+    }
 
     public MainFragment() {
-
     }
 
     @Override
