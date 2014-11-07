@@ -2,8 +2,6 @@ package com.detroitlabs.kyleofori.json_tableview.calls;
 
 import android.util.Log;
 
-import com.detroitlabs.kyleofori.json_tableview.objects.WeatherJSONObject;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +24,7 @@ public class WeatherJSONCall {
     public String mImage;
     public String mThumbnail;
 
-    WeatherJSONObject mEtsyObject = new WeatherJSONObject();
+    EtsyObjects mEtsyObject = new EtsyObjects();
 
     public void setSearchResults(String result){
 
