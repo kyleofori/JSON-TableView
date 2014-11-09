@@ -17,12 +17,12 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by kyleofori on 11/6/14.
  */
 public class WeatherJSONRequest {
-    private final String API_KEY = "&api_key=rf882apukk32kmsqamjwej8w";
-    private final String BASE_API = "https://openapi.etsy.com/v2/listings/active?";
-    private final String SORTING_HAT = "&sort_on=score&sort_order=down";
-    private final String RESULT_LIMIT = "limit=25";
-    private final String SEARCH_TERM = "&keywords=";
-    private final String INCLUDE_IMAGES = "&includes=Images";
+    //    http://api.openweathermap.org/data/2.5/forecast/daily?q=Detroit&mode=json&units=metric&cnt=2
+    private final String BASE_API = "https://api.openweathermap.org/data/2.5/forecast/daily?";
+    private final String PLACE = "q=Detroit";
+    private final String MODE = "&mode=json";
+    private final String UNITS = "&units=metric";
+    private final String NUMBER_OF_DAYS = "&cnt=2";
     public String searchKeyword = "";
 
     public EtsyAPI(String searchKeyword) {
@@ -43,7 +43,7 @@ public class WeatherJSONRequest {
             StringBuilder mStringBuilder = new StringBuilder();
 
             //building our complete URL :)
-            mFullURL = BASE_API + RESULT_LIMIT + INCLUDE_IMAGES + SEARCH_TERM + searchKeyword + SORTING_HAT + API_KEY;
+            mFullURL = BASE_API + PLACE + MODE + UNITS + NUMBER_OF_DAYS;
 
             URL mEtsyUrl = new URL(mFullURL);
 

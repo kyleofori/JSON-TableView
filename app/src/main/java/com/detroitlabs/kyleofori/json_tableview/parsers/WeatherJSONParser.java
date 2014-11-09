@@ -1,4 +1,4 @@
-package com.detroitlabs.kyleofori.json_tableview.calls;
+package com.detroitlabs.kyleofori.json_tableview.parsers;
 
 import android.util.Log;
 
@@ -9,7 +9,7 @@ import org.json.JSONObject;
 /**
  * Created by kyleofori on 11/6/14.
  */
-public class WeatherJSONCall {
+public class WeatherJSONParser {
     private String mSearchResults = "";
     JSONObject mJsonObject;
     private final String TITLE_KEY = "title";

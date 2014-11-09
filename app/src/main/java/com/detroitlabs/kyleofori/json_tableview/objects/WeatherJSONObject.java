@@ -4,51 +4,40 @@ package com.detroitlabs.kyleofori.json_tableview.objects;
  * Created by kyleofori on 11/6/14.
  */
 public class WeatherJSONObject {
-    private String mTitle = "";
+    private String mHigh = "";
+    private String mLow = "";
+    private String mDate = "";
     private String mDescription = "";
-    private String mPrice = "";
-    private String mThumbnail = "";
-    private String mFullSize = "";
 
-    public String getmTitle() {
-        return mTitle;
+    public String getHigh() {
+        return mHigh;
     }
 
-    public void setmTitle(String mTitle) {
-        this.mTitle = mTitle;
+    public void setHigh(String high) {
+        mHigh = high;
     }
 
-    public String getmDescription() {
+    public String getLow() {
+        return mLow;
+    }
+
+    public void setLow(String low) {
+        mLow = low;
+    }
+
+    public String getDate() {
+        return mDate;
+    }
+
+    public void setDate(String date) {
+        mDate = date;
+    }
+
+    public String getDescription() {
         return mDescription;
     }
 
-    public void setmDescription(String mDescription) {
-        this.mDescription = mDescription;
+    public void setDescription(String description) {
+        mDescription = description;
     }
-
-    public String getmPrice() {
-        return mPrice;
-    }
-
-    public void setmPrice(String mPrice) {
-        this.mPrice = mPrice;
-    }
-
-    public String getmThumbnail() {
-        return mThumbnail;
-    }
-
-    public void setmThumbnail(String Thumbnail) {
-        this.mThumbnail = Thumbnail;
-        //remember to add the pictures to the inflated views
-    }
-
-    public String getmFullSize() {
-        return mFullSize;
-    }
-
-    public void setmFullSize(String mFullSize) {
-        this.mFullSize = mFullSize;
-    }
-
 }
