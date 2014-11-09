@@ -1,8 +1,10 @@
 package com.detroitlabs.kyleofori.json_tableview.asynctasks;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
-import org.json.JSONObject;
+import com.detroitlabs.kyleofori.json_tableview.objects.WeatherJSONObject;
+import com.detroitlabs.kyleofori.json_tableview.parsers.WeatherJSONParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,60 +18,58 @@ import javax.net.ssl.HttpsURLConnection;
 /**
  * Created by kyleofori on 11/6/14.
  */
-public class WeatherJSONRequest {
+public class WeatherJSONRequest extends AsyncTask<String, Void, Object> {
     //    http://api.openweathermap.org/data/2.5/forecast/daily?q=Detroit&mode=json&units=metric&cnt=2
     private final String BASE_API = "https://api.openweathermap.org/data/2.5/forecast/daily?";
     private final String PLACE = "q=Detroit";
     private final String MODE = "&mode=json";
     private final String UNITS = "&units=metric";
     private final String NUMBER_OF_DAYS = "&cnt=2";
-    public String searchKeyword = "";
 
-    public EtsyAPI(String searchKeyword) {
-        this.searchKeyword = searchKeyword;
+    public WeatherJSONRequest() {
     }
 
     InputStream mInputStream = null;
     HttpsURLConnection mURLConnector = null;
-    JSONObject mJsonObject;
-    public String mSearchResult;
-    public String mFullURL;
+    public String weatherJSONString;
+    public String fullURL;
+    public BufferedReader mBufferedReader;
+
 
     @Override
-    protected Object doInBackground(Object[] objects) {
+    protected String doInBackground(WeatherJSONObject[] weatherJSONObjects) {
 
         try {
             //this string builder is used to assemble the JSON data
             StringBuilder mStringBuilder = new StringBuilder();
 
             //building our complete URL :)
-            mFullURL = BASE_API + PLACE + MODE + UNITS + NUMBER_OF_DAYS;
+            fullURL = BASE_API + PLACE + MODE + UNITS + NUMBER_OF_DAYS;
 
-            URL mEtsyUrl = new URL(mFullURL);
+            URL openWeatherMapURL = new URL(fullURL);
 
             //this opens an internet connection with the URL built above
-            mURLConnector = (HttpsURLConnection) mEtsyUrl.openConnection();
+            mURLConnector = (HttpsURLConnection) openWeatherMapURL.openConnection();
 
             //this tells the API what we are planning on doing... GET
             mURLConnector.setRequestMethod("GET");
-
 
             //the input stream is going to handle the info coming in from the URL. Helps open a line for it to follow in
             mInputStream = mURLConnector.getInputStream();
 
             //birthing new buffered reader, telling it to be an input stream reader and to read mInputStream
-            BufferedReader mBufferReader = new BufferedReader(new InputStreamReader(mInputStream));
+            mBufferedReader = new BufferedReader(new InputStreamReader(mInputStream));
 
             String line;
 
 
             //this is saying that as long as there are more lines coming in from the JSON, the string builder will add the next line
-            while ((line = mBufferReader.readLine()) != null) {
+            while ((line = mBufferedReader.readLine()) != null) {
                 mStringBuilder.append(line);
             }
 
-            //this is basically saying that all of the strings that were appended are now set to msearchresult
-            mSearchResult = mStringBuilder.toString();
+            //this is basically saying that all of the strings that were appended are now set to weatherJSONString
+            weatherJSONString = mStringBuilder.toString();
 
             //closing input stream bc if you leave open it will keep draining resources
             mInputStream.close();
@@ -88,23 +88,23 @@ public class WeatherJSONRequest {
         }
 
 
-        return mSearchResult;
+        return weatherJSONString;
 
     }
 
 
-    //takes the m search result from above (you can rename in the onpost execute method) and does a thing
+    //takes the weatherJSONString from above (you can rename in the onPostExecute method) and does a thing
     @Override
     protected void onPostExecute(Object SearchResult) {
 
         super.onPostExecute(SearchResult);
 
 
-        //creating isnatnce of JSON data class
-        JsonData mJsonData = new JsonData();
+        //creating instance of JSON data class
+        WeatherJSONParser weatherJSONParser = new WeatherJSONParser();
 
         //calling the set method
-        mJsonData.setSearchResults(mSearchResult);
+        weatherJSONParser.setSearchResults(weatherJSONString);
     }
 
 }
