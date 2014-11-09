@@ -18,7 +18,7 @@ import javax.net.ssl.HttpsURLConnection;
 /**
  * Created by kyleofori on 11/6/14.
  */
-public class WeatherJSONRequest extends AsyncTask<String, Void, Object> {
+public class WeatherJSONRequest extends AsyncTask {
     //    http://api.openweathermap.org/data/2.5/forecast/daily?q=Detroit&mode=json&units=metric&cnt=2
     private final String BASE_API = "https://api.openweathermap.org/data/2.5/forecast/daily?";
     private final String PLACE = "q=Detroit";
@@ -35,9 +35,8 @@ public class WeatherJSONRequest extends AsyncTask<String, Void, Object> {
     public String fullURL;
     public BufferedReader mBufferedReader;
 
-
     @Override
-    protected String doInBackground(WeatherJSONObject[] weatherJSONObjects) {
+    protected Object doInBackground(Object[] params) { //Need to research what's going on here...
 
         try {
             //this string builder is used to assemble the JSON data
@@ -87,9 +86,7 @@ public class WeatherJSONRequest extends AsyncTask<String, Void, Object> {
             Log.e("TAG URL CONNECTOR", e.getLocalizedMessage());
         }
 
-
         return weatherJSONString;
-
     }
 
 
