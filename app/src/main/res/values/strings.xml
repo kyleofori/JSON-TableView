@@ -10,7 +10,7 @@
     <string name="yesterday">Yesterday</string>
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
-    <string name="high">High</string>
-    <string name="low">Low</string>
+    <string name="max">High</string>
+    <string name="min">Low</string>
     <string name="description">Description</string>
 </resources>

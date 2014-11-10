@@ -50,8 +50,8 @@
 
         <TableRow>
             <TextView
-                android:id="@+id/high"
-                android:text="@string/high"
+                android:id="@+id/max"
+                android:text="@string/max"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -83,8 +83,8 @@
 
         <TableRow>
             <TextView
-                android:id="@+id/low"
-                android:text="@string/low"
+                android:id="@+id/min"
+                android:text="@string/min"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="center"

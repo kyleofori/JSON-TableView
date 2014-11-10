@@ -14,14 +14,16 @@ import org.json.JSONObject;
 public class WeatherJSONParser {
     private String mSearchResults = "";
     JSONObject mJsonObject;
-    private final String HIGH_KEY = "max";
-    private final String LOW_KEY = "min";
+    private final String MAX_KEY = "max";
+    private final String MIN_KEY = "min";
+    private final String WEATHER_KEY = "weather";
     private final String DESCRIPTION_KEY = "description";
-    private final String DATE_KEY = "date";
+    private final String TEMPERATURE_KEY = "temp";
+    private final String DATE_KEY = "dt";
     private final String LIST_KEY = "list";
 
-    public String mHigh;
-    public String mLow;
+    public String mMax;
+    public String mMin;
     public String mDescription;
     public String mDate;
 
@@ -43,35 +45,40 @@ public class WeatherJSONParser {
         }
 
         try{
+            //FOLLOW THE SUNSHINE APP / FetchWeatherTask class example
+
             //take above json object and say make an array from the array that exists under results tag
+            //11-10: this gets list*[ {} {} ]
             JSONArray listArray = mJsonObject.getJSONArray(LIST_KEY);
 
-            String high, low, date, description;
-                //FOLLOW THE SUNSHINE APP / FetchWeatherTask class example
+
 
             for(int i = 0; i < listArray.length(); i++) {
 
-                //tell it to get the first array result (outer onion layer)
-                JSONObject temperatureObject = listArray.getJSONObject(i);
-                JSONObject dateObject = listArray.getJSONObject(i);
-                JSONObject weatherObject = listArray.getJSONObject(i);
+                //11-10: this gets list[ *{} *{} ]
+                JSONObject listArrayObject = listArray.getJSONObject(i);
 
+                    //11-10: this gets weather*[ {} ], which was inside the * of list[*{} *{}]
+                    JSONArray weatherArray = listArrayObject.getJSONArray(WEATHER_KEY);
 
+                    //11-10: there is only one object inside the weather array, so we just get JSONObject(0)
+                    JSONObject weatherArrayObject = weatherArray.getJSONObject(0);
 
-                //get the title, description and price key out of the first array result (still part of outer onion)
-                JSONObject highObject = dateObject.getJSONObject(HIGH_KEY);
-                high = highObject.getString(HIGH_KEY);
+                        //11-10: finally, get the description from inside the weatherArrayObject, which is a {}.
+                        mDescription = weatherArrayObject.getString(DESCRIPTION_KEY);
 
-                mHigh = temperatureObject.getString(HIGH_KEY);
-                mWeatherJSONObject.setHigh(mHigh);//this part sets all of the information for the weather json object class
+                    //11-10: Following the pattern from here on out. Notice the outline form.
+                    JSONObject temperatureObject = listArrayObject.getJSONObject(TEMPERATURE_KEY);
 
-                mLow = temperatureObject.getString(LOW_KEY);
-                mWeatherJSONObject.setLow(mLow);
+                        mMax = temperatureObject.getString(MAX_KEY);
+                        mMin = temperatureObject.getString(MIN_KEY);
 
-                mDescription = temperatureObject.getString(DESCRIPTION_KEY);
+                    mDate = listArrayObject.getString(DATE_KEY);
+
+            //this part sets all of the information for the weather json object class
+                mWeatherJSONObject.setMax(mMax);
+                mWeatherJSONObject.setMin(mMin);
                 mWeatherJSONObject.setDescription(mDescription);
-
-                mDate = dateObject.getString(DATE_KEY);
                 mWeatherJSONObject.setDate(mDate);
             }
         }

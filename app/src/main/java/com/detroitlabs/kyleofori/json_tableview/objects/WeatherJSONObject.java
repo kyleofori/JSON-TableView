@@ -4,25 +4,25 @@ package com.detroitlabs.kyleofori.json_tableview.objects;
  * Created by kyleofori on 11/6/14.
  */
 public class WeatherJSONObject {
-    private String mHigh = "";
-    private String mLow = "";
+    private String mMax = "";
+    private String mMin = "";
     private String mDate = "";
     private String mDescription = "";
 
-    public String getHigh() {
-        return mHigh;
+    public String getMax() {
+        return mMax;
     }
 
-    public void setHigh(String high) {
-        mHigh = high;
+    public void setMax(String max) {
+        mMax = max;
     }
 
-    public String getLow() {
-        return mLow;
+    public String getMin() {
+        return mMin;
     }
 
-    public void setLow(String low) {
-        mLow = low;
+    public void setMin(String min) {
+        mMin = min;
     }
 
     public String getDate() {
