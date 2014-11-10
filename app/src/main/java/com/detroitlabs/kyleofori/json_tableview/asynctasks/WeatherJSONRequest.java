@@ -3,7 +3,6 @@ package com.detroitlabs.kyleofori.json_tableview.asynctasks;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.detroitlabs.kyleofori.json_tableview.objects.WeatherJSONObject;
 import com.detroitlabs.kyleofori.json_tableview.parsers.WeatherJSONParser;
 
 import java.io.BufferedReader;
@@ -21,7 +20,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class WeatherJSONRequest extends AsyncTask {
     //    http://api.openweathermap.org/data/2.5/forecast/daily?q=Detroit&mode=json&units=metric&cnt=2
     private final String BASE_API = "https://api.openweathermap.org/data/2.5/forecast/daily?";
-    private final String PLACE = "q=Detroit";
+    private final String PLACE_QUERY = "q=";
     private final String MODE = "&mode=json";
     private final String UNITS = "&units=metric";
     private final String NUMBER_OF_DAYS = "&cnt=2";
@@ -36,14 +35,15 @@ public class WeatherJSONRequest extends AsyncTask {
     public BufferedReader mBufferedReader;
 
     @Override
-    protected Object doInBackground(Object[] params) { //Need to research what's going on here...
+    protected String doInBackground(Object[] params) { //Need to research what's going on here...
 
         try {
             //this string builder is used to assemble the JSON data
             StringBuilder mStringBuilder = new StringBuilder();
 
             //building our complete URL :)
-            fullURL = BASE_API + PLACE + MODE + UNITS + NUMBER_OF_DAYS;
+//            String placeName = "";
+            fullURL = BASE_API + PLACE_QUERY /*+ placeName*/ + MODE + UNITS + NUMBER_OF_DAYS;
 
             URL openWeatherMapURL = new URL(fullURL);
 
