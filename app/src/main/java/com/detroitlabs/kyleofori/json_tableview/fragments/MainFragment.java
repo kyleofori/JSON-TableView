@@ -26,7 +26,7 @@ public class MainFragment extends Fragment implements FetchWeatherTask.WeatherFe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
              Bundle onSavedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.object_weatherjson, container, false);
         WeatherJSONRequest weatherJSONRequest = new WeatherJSONRequest();
 
         weatherJSONRequest.execute();  //not sure if this is complete...
