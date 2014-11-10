@@ -25,9 +25,11 @@ public class WeatherJSONRequest extends AsyncTask {
     private final String UNITS = "&units=metric";
     private final String NUMBER_OF_DAYS = "&cnt=2";
 
+    //constructor
     public WeatherJSONRequest() {
     }
 
+    //some needed variables
     InputStream mInputStream = null;
     HttpsURLConnection mURLConnector = null;
     public String weatherJSONString;
@@ -93,9 +95,6 @@ public class WeatherJSONRequest extends AsyncTask {
     //takes the weatherJSONString from above (you can rename in the onPostExecute method) and does a thing
     @Override
     protected void onPostExecute(Object SearchResult) {
-
-        super.onPostExecute(SearchResult);
-
 
         //creating instance of JSON data class
         WeatherJSONParser weatherJSONParser = new WeatherJSONParser();
