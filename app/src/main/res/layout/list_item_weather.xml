@@ -6,6 +6,13 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <ListView
+        android:id="@+id/list_item_listview"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        </ListView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -15,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_margin="10dp"
-            tools:text="word uno"/>
+            android:text="word uno"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -27,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="1dp"
-                tools:text="word dos"/>
+                android:text="word dos"/>
 
             <TextView
                 android:id="@+id/low_text"
@@ -36,17 +43,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="10dp"
-                tools:text="word tres"/>
+                android:text="word tres"/>
 
 
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_margin="10dp"
-            tools:text="word cuatro"/>
+            android:text="word cuatro"/>
         </LinearLayout>
 
 
