@@ -12,9 +12,11 @@ import android.widget.ListView;
 
 import com.detroitlabs.kyleofori.json_tableview.R;
 import com.detroitlabs.kyleofori.json_tableview.asynctasks.FetchWeatherTask;
+import com.detroitlabs.kyleofori.json_tableview.asynctasks.NewExecutor;
 import com.detroitlabs.kyleofori.json_tableview.asynctasks.WeatherJSONRequest;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
 
 /**
  * Created by kyleofori on 11/3/14.
@@ -57,5 +59,4 @@ public class MainFragment extends Fragment implements FetchWeatherTask.WeatherFe
         weatherJSONRequest.execute();  //not sure if this is complete...
         return rootView;
     }
-
 }

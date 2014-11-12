@@ -97,7 +97,6 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
     private String[] getWeatherDataFromJson(String forecastJsonStr, int numDays)
             throws JSONException {
 
-        // These are the names of the JSON objects that need to be extracted.
         final String OWM_LIST = "list";
         final String OWM_WEATHER = "weather";
         final String OWM_TEMPERATURE = "temp";
@@ -111,88 +110,30 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         JSONObject forecastJson = new JSONObject(forecastJsonStr); //this one is not in the JSON data.
         JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST); //this is found in the list object of the JSON data.
 
-        String[] resultStrs = new String[numDays];
+        String[] resultStrings = new String[numDays];
         for (int i = 0; i < weatherArray.length(); i++) {
-            // For now, using the format "Day, description, hi/low"
             String day;
             String description;
             String highAndLow;
 
-            // Get the JSON object representing the day
             JSONObject dayForecast = weatherArray.getJSONObject(i);
 
-            // The date/time is returned as a long.  We need to convert that
-            // into something human-readable, since most people won't read "1400356800" as
-            // "this saturday".
             long dateTime = dayForecast.getLong(OWM_DATETIME);
             day = getReadableDateString(dateTime);
 
-            // description is in a child array called "weather", which is 1 element long.
             JSONObject weatherObject = dayForecast.getJSONArray(OWM_WEATHER).getJSONObject(0);
             description = weatherObject.getString(OWM_DESCRIPTION);
 
-            // Temperatures are in a child object called "temp".  Try not to name variables
-            // "temp" when working with temperature.  It confuses everybody.
             JSONObject temperatureObject = dayForecast.getJSONObject(OWM_TEMPERATURE);
             double high = temperatureObject.getDouble(OWM_MAX);
             double low = temperatureObject.getDouble(OWM_MIN);
 
-            // KO - I'd like a check for the setting that we're on, which would multiply
-            // the Celsius temperature by 1.8 and add 32 if the mode were imperial.
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-            //get the user's temperature setting
-            String temperatureSetting = prefs.getString("temperature", mContext.getString(R.string.pref_temp_label));
-            //make a boolean to find out if the user's temperature setting is on imperial
-            boolean isImperial = temperatureSetting.equals(mContext.getString(R.string.imperial));
-
-            if (isImperial) {
-                high = convertToFahrenheit(high);
-                low = convertToFahrenheit(low);
-            }
-
             highAndLow = formatHighLows(high, low);
-            resultStrs[i] = day + " - " + description + " - " + highAndLow;
+            resultStrings[i] = day + " - " + description + " - " + highAndLow;
         }
 
-        return resultStrs;
+        return resultStrings;
     }
-
-
-
-         /* Fortunately parsing is easy:  constructor takes the JSON string and converts it
-         * into an Object hierarchy for us.
-         */
-
-    public double convertToFahrenheit(double temperature) {
-        temperature = 1.8 * temperature + 32;
-        return temperature;
-    }
-
-
-    //Never used this because I never tried Google Maps on a test device...
-    private String getLatAndLonFromJson(String latAndLonStr)
-            throws JSONException {
-
-        // These are the names of the JSON objects that need to be extracted.
-        final String OWM_LAT = "lat";
-        final String OWM_LON = "lon";
-        final String OWM_COORD = "coord";
-        String zoomLevel = "13z";
-
-        JSONObject latAndLon = new JSONObject(latAndLonStr);
-        JSONObject coordinates = latAndLon.getJSONObject(OWM_COORD);
-        //These JSON objects are the pairs latitude: ~~~~ and longitude: ~~~~~.
-        JSONObject jsonLatitude = coordinates.getJSONObject(OWM_LAT);
-        JSONObject jsonLongitude = coordinates.getJSONObject(OWM_LON);
-        //The following will give us those numbers that we need.
-        String latitude = jsonLatitude.getString(OWM_LAT);
-        String longitude = jsonLongitude.getString(OWM_LON);
-
-        String resultString = latitude + "," + longitude + "," + zoomLevel;
-
-        return resultString;
-    }
-
 
     @Override
     protected String[] doInBackground(String... zipCode) {
@@ -211,19 +152,6 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         String forecastJsonStr;
 
         try {
-            // Construct the URL for the OpenWeatherMap query
-            // Possible parameters are avaiable at OWM's forecast API page, at
-            // http://openweathermap.org/API#forecast
-
-            //I THINK THE URIBUILDER WILL GO HERE.
-
-            //After talking to Bryan Kelly
-//                Uri.Builder myUriBuilder = new Uri.Builder();
-//                myUriBuilder.appendPath("?q=Detroit");
-//                myUriBuilder.appendPath("&mode=json");
-//                myUriBuilder.appendPath("&units=metric");
-//                myUriBuilder.appendPath("&cnt=7");
-//                myUriBuilder.build();
 
             //after checking StackOverflow
             Uri.Builder builder = new Uri.Builder();
@@ -234,8 +162,8 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
                     .appendPath("daily")
                     .appendQueryParameter("q", zipCode[0])
                     .appendQueryParameter("mode", "json")
-                    .appendQueryParameter("units", "metric")
-                    .appendQueryParameter("cnt", "7");
+                    .appendQueryParameter("units", "imperial")
+                    .appendQueryParameter("cnt", "2");
 
             String myUrl = builder.build().toString();
 
