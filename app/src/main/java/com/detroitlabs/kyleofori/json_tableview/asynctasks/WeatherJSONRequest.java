@@ -1,8 +1,10 @@
 package com.detroitlabs.kyleofori.json_tableview.asynctasks;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.detroitlabs.kyleofori.json_tableview.objects.WeatherJSONObject;
 import com.detroitlabs.kyleofori.json_tableview.parsers.WeatherJSONParser;
 
 import java.io.BufferedReader;
@@ -11,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -19,17 +22,35 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class WeatherJSONRequest extends AsyncTask {
     //    http://api.openweathermap.org/data/2.5/forecast/daily?q=Detroit&mode=json&units=metric&cnt=2
+    private final String LOG_TAG = WeatherJSONRequest.class.getSimpleName(); //needs to match name of class
     private final String BASE_API = "https://api.openweathermap.org/data/2.5/forecast/daily?";
     private final String PLACE_QUERY = "q=";
     private final String MODE = "&mode=json";
     private final String UNITS = "&units=metric";
     private final String NUMBER_OF_DAYS = "&cnt=2";
+    private Context mContext;
+    private WeatherFetchedListener myWeatherFetchedListener;
+
+    //The following interface indicates that any WeatherFetchedListener has to have a method
+    // called weatherReceived for receiving a string array called weatherData.
+    public interface WeatherFetchedListener {
+        public void weatherReceived(String[] weatherData);
+    }
+
+    public void setMyWeatherFetchedListener(WeatherFetchedListener mWeatherFetchedListener) {
+        this.myWeatherFetchedListener = mWeatherFetchedListener;
+    }
+
+    public WeatherJSONRequest(Context context) {
+        mContext = context;
+    }
 
     //constructor
     public WeatherJSONRequest() {
     }
 
-    //some needed variables
+    public ArrayList<WeatherJSONObject> weatherJSONObjectsArrayList = new ArrayList<WeatherJSONObject>();
+
     InputStream mInputStream = null;
     HttpsURLConnection mURLConnector = null;
     public String weatherJSONString;
@@ -101,6 +122,7 @@ public class WeatherJSONRequest extends AsyncTask {
 
         //calling the set method
         weatherJSONParser.setSearchResults(weatherJSONString);
+        weatherJSONObjectsArrayList = weatherJSONParser.parseJson();
     }
 
 }

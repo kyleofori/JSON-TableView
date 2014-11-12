@@ -8,6 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by kyleofori on 11/6/14.
  */
@@ -26,6 +28,7 @@ public class WeatherJSONParser {
     public String mMin;
     public String mDescription;
     public String mDate;
+    public ArrayList<WeatherJSONObject> weatherJSONObjectsArrayList = new ArrayList<WeatherJSONObject>();
 
     WeatherJSONObject mWeatherJSONObject = new WeatherJSONObject();
 
@@ -35,16 +38,15 @@ public class WeatherJSONParser {
 
     }
 
-    public void parseJson(){
-        try{
+    public ArrayList<WeatherJSONObject> parseJson() {
+        try {
             //take these msearchresults, convert them to a JSON Object.
             mJsonObject = new JSONObject(mSearchResults);
-        }
-        catch(JSONException e){
+        } catch (JSONException e) {
             Log.e("TAG PARSE", "exception in converting string to JSON");
         }
 
-        try{
+        try {
             //FOLLOW THE SUNSHINE APP / FetchWeatherTask class example
 
             //take above json object and say make an array from the array that exists under results tag
@@ -52,41 +54,40 @@ public class WeatherJSONParser {
             JSONArray listArray = mJsonObject.getJSONArray(LIST_KEY);
 
 
-
-            for(int i = 0; i < listArray.length(); i++) {
+            for (int i = 0; i < listArray.length(); i++) {
 
                 //11-10: this gets list[ *{} *{} ]
                 JSONObject listArrayObject = listArray.getJSONObject(i);
 
-                    //11-10: this gets weather*[ {} ], which was inside the * of list[*{} *{}]
-                    JSONArray weatherArray = listArrayObject.getJSONArray(WEATHER_KEY);
+                //11-10: this gets weather*[ {} ], which was inside the * of list[*{} *{}]
+                JSONArray weatherArray = listArrayObject.getJSONArray(WEATHER_KEY);
 
-                    //11-10: there is only one object inside the weather array, so we just get JSONObject(0)
-                    JSONObject weatherArrayObject = weatherArray.getJSONObject(0);
+                //11-10: there is only one object inside the weather array, so we just get JSONObject(0)
+                JSONObject weatherArrayObject = weatherArray.getJSONObject(0);
 
-                        //11-10: finally, get the description from inside the weatherArrayObject, which is a {}.
-                        mDescription = weatherArrayObject.getString(DESCRIPTION_KEY);
+                //11-10: finally, get the description from inside the weatherArrayObject, which is a {}.
+                mDescription = weatherArrayObject.getString(DESCRIPTION_KEY);
 
-                    //11-10: Following the pattern from here on out. Notice the outline form.
-                    JSONObject temperatureObject = listArrayObject.getJSONObject(TEMPERATURE_KEY);
+                //11-10: Following the pattern from here on out. Notice the outline form.
+                JSONObject temperatureObject = listArrayObject.getJSONObject(TEMPERATURE_KEY);
 
-                        mMax = temperatureObject.getString(MAX_KEY);
-                        mMin = temperatureObject.getString(MIN_KEY);
+                mMax = temperatureObject.getString(MAX_KEY);
+                mMin = temperatureObject.getString(MIN_KEY);
 
-                    mDate = listArrayObject.getString(DATE_KEY);
+                mDate = listArrayObject.getString(DATE_KEY);
 
-            //this part sets all of the information for the weather json object class
+                //this part sets all of the information for the weather json object class
                 mWeatherJSONObject.setMax(mMax);
                 mWeatherJSONObject.setMin(mMin);
                 mWeatherJSONObject.setDescription(mDescription);
                 mWeatherJSONObject.setDate(mDate);
+                weatherJSONObjectsArrayList.add(mWeatherJSONObject);
             }
-        }
 
-        catch (JSONException e){
+        } catch (JSONException e) {
             Log.e("TAG RESULT ARRAY", "exception creating result array");
         }
+
+        return weatherJSONObjectsArrayList;
     }
-
-
 }

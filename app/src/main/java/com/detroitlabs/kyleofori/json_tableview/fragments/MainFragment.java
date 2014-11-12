@@ -12,7 +12,6 @@ import android.widget.ListView;
 
 import com.detroitlabs.kyleofori.json_tableview.R;
 import com.detroitlabs.kyleofori.json_tableview.asynctasks.FetchWeatherTask;
-import com.detroitlabs.kyleofori.json_tableview.asynctasks.NewExecutor;
 import com.detroitlabs.kyleofori.json_tableview.asynctasks.WeatherJSONRequest;
 
 import java.util.ArrayList;

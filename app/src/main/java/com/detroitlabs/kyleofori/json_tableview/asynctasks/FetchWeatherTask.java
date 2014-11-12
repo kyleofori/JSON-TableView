@@ -59,6 +59,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
     //I think the purpose of the WeatherFetchedListener's weatherReceived method is to get the
     //information that's returned from doInBackground() into the onPostExecute method.
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onPostExecute(String[] strings) {
@@ -66,22 +67,13 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         mWeatherFetchedListener.weatherReceived(strings);
     }
 
-    /* The date/time conversion code is going to be moved outside the asynctask later,
-     * so for convenience we're breaking it out into its own method now.
-     */
     private String getReadableDateString(long time) {
-        // Because the API returns a unix timestamp (measured in seconds),
-        // it must be converted to milliseconds in order to be converted to valid date.
         Date date = new Date(time * 1000);
         SimpleDateFormat format = new SimpleDateFormat("E, MMM d");
         return format.format(date).toString();
     }
 
-    /**
-     * Prepare the weather high/lows for presentation.
-     */
     private String formatHighLows(double high, double low) {
-        // For presentation, assume the user doesn't care about tenths of a degree.
         long roundedHigh = Math.round(high);
         long roundedLow = Math.round(low);
 
@@ -89,14 +81,8 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         return highLowStr;
     }
 
-    /**
-     * Take the String representing the complete forecast in JSON Format and
-     * pull out the data we need to construct the Strings needed for the wireframes.
-     */
-
     private String[] getWeatherDataFromJson(String forecastJsonStr, int numDays)
             throws JSONException {
-
         final String OWM_LIST = "list";
         final String OWM_WEATHER = "weather";
         final String OWM_TEMPERATURE = "temp";
@@ -141,19 +127,13 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
             return null;
         }
 
-        // These two need to be declared outside the try/catch
-        // so that they can be closed in the finally block.
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String[] weatherDataFromJson = null;
 
-
-        // Will contain the raw JSON response as a string.
         String forecastJsonStr;
 
         try {
-
-            //after checking StackOverflow
             Uri.Builder builder = new Uri.Builder();
             builder.scheme("http").authority("api.openweathermap.org")
                     .appendPath("data")
@@ -168,44 +148,35 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
             String myUrl = builder.build().toString();
 
             URL url = new URL(myUrl);
-//                URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=Detroit&mode=json&units=metric&cnt=7");
+//                URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=Detroit&mode=json&units=imperial&cnt=2");
 
-            // Create the request to OpenWeatherMap, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
-            // Read the input stream into a String
             InputStream inputStream = urlConnection.getInputStream();
             StringBuffer buffer = new StringBuffer();
             if (inputStream == null) {
-                // Nothing to do.
                 return null;
             }
             reader = new BufferedReader(new InputStreamReader(inputStream));
 
             String line;
             while ((line = reader.readLine()) != null) {
-                // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                // But it does make debugging a *lot* easier if you print out the completed
-                // buffer for debugging.
                 buffer.append(line + "\n");
             }
 
             if (buffer.length() == 0) {
-                // Stream was empty.  No point in parsing.
                 return null;
             }
             forecastJsonStr = buffer.toString();
 
-            weatherDataFromJson = getWeatherDataFromJson(forecastJsonStr, 7);
+            weatherDataFromJson = getWeatherDataFromJson(forecastJsonStr, 2);
 
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
-            // If the code didn't successfully get the weather data, there's no point in attempting
-            // to parse it.
             return null;
         } finally {
             if (urlConnection != null) {
@@ -217,9 +188,12 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
                 } catch (final IOException e) {
                     Log.e(LOG_TAG, "Error closing stream", e);
                 }
+
+
             }
         }
 
+        Log.d(LOG_TAG, weatherDataFromJson.toString());
         return weatherDataFromJson; //onPostExecute() knows what I will return from this.
     }
 
