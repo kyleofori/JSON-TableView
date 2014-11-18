@@ -13,22 +13,22 @@ import android.widget.ListView;
 import com.detroitlabs.kyleofori.json_tableview.R;
 import com.detroitlabs.kyleofori.json_tableview.asynctasks.FetchWeatherTask;
 import com.detroitlabs.kyleofori.json_tableview.asynctasks.WeatherJSONRequest;
+import com.detroitlabs.kyleofori.json_tableview.objects.WeatherJSONObject;
 
 import java.util.ArrayList;
-import java.util.concurrent.Executor;
 
 /**
  * Created by kyleofori on 11/3/14.
  */
-public class MainFragment extends Fragment implements FetchWeatherTask.WeatherFetchedListener {
+public class MainFragment extends Fragment implements WeatherJSONRequest.WeatherFetchedListener {
 
     @Override
     public void weatherReceived(String[] weatherData) {
     }
 
     private ArrayAdapter<String> mForecastAdapter;
-
     private ListView mListView;
+
 
     public MainFragment() {
     }
