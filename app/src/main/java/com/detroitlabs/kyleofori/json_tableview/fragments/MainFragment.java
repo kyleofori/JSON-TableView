@@ -36,12 +36,12 @@ public class MainFragment extends Fragment implements WeatherJSONRequest.Weather
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
              Bundle onSavedInstanceState) {
-        View rootView = inflater.inflate(R.layout.list_item_weather, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         mForecastAdapter = new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.list_item_weather, //What View will be inflated for that element in array
-                R.id.description, //which View within the layout does the element of the array bind to
+                R.id.txt_description, //which View within the layout does the element of the array bind to
                 new ArrayList<String>());
 
         mListView = (ListView) rootView.findViewById(R.id.list_item_listview);
