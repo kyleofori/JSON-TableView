@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/list_item_listview"
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
-
-        </ListView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/txt_item_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -29,7 +23,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/high_text"
+                android:id="@+id/txt_high"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -37,8 +31,8 @@
                 android:text="word dos"/>
 
             <TextView
-                android:id="@+id/low_text"
-                android:layout_below="@id/high_text"
+                android:id="@+id/txt_low"
+                android:layout_below="@id/txt_high"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
@@ -49,7 +43,7 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/description"
+            android:id="@+id/txt_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
